@@ -20,14 +20,16 @@
             background-color: var(--op-parchment);
             color: #1e293b;
             margin: 0;
-            padding: 10px; /* 縮小外部 padding */
+            padding: 10px; 
             display: flex;
             justify-content: center;
             align-items: flex-start; /* 讓內容靠上，避免下方被截斷 */
             min-height: 100vh;
             background-image: radial-gradient(#fde68a 20%, transparent 20%);
-            background-size: 20px 20px; /* 背景花紋縮小 */
+            background-size: 20px 20px; 
             overflow: hidden; /* 防止整個頁面捲動 */
+            user-select: none; /* 禁用選取防誤觸 */
+            -webkit-user-select: none;
         }
 
         .game-container {
@@ -37,63 +39,51 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset 0 0 10px rgba(120, 53, 15, 0.2);
             width: 100%;
             max-width: 1024px; /* iPad 橫向標準寬度 */
-            padding: 15px; /* 減少內部 padding */
+            padding: 12px; /* 極小化 padding */
             text-align: center;
             position: relative;
             box-sizing: border-box;
-            height: 98vh; /* 佔滿畫面，防止滾動 */
+            height: 97vh; /* 佔滿畫面 */
             display: flex;
             flex-direction: column;
         }
 
-        /* 頂部兩隊狀態列 (融合了遊戲標題) */
+        /* 頂部狀態列 */
         .pvp-stats-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
-            padding: 8px 15px;
-            border-radius: 15px;
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            border: 2px solid #b45309;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            padding: 5px 15px; border-radius: 12px; font-size: 1.1em; font-weight: bold;
+            margin-bottom: 8px; border: 2px solid #b45309; box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
-        .hp-meat { font-size: 1.2em; letter-spacing: 1px; }
+.hp-meat { font-size: 1.2em; letter-spacing: 1px; }
         .main-title { color: #78350f; font-size: 1.3em; text-shadow: 1px 1px 0px var(--op-gold); }
 
         /* STREAMING_CHUNK: Compact Battle Stage */
-        /* 壓縮後的戰鬥舞台 */
+        /* 放大的戰鬥舞台 */
         .battle-stage {
             background: linear-gradient(to bottom, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
-            border-radius: 15px;
-            height: 160px; /* 大幅縮小高度 */
-            position: relative;
-            overflow: hidden;
-            border: 3px solid var(--op-darkwood);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
-            margin-bottom: 10px;
-            flex-shrink: 0; /* 確保高度不會被擠壓 */
+            border-radius: 12px; height: 190px; /* 高度放大至 190px */
+            position: relative; overflow: hidden; border: 3px solid var(--op-darkwood);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.4); margin-bottom: 8px; flex-shrink: 0;
         }
 
         .ocean-waves {
-            position: absolute; bottom: 0; left: 0; width: 200%; height: 30px;
+            position: absolute; bottom: 0; left: 0; width: 200%; height: 35px; /* 稍微增高海浪 */
             background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.25), rgba(255,255,255,0.25) 10px, transparent 10px, transparent 20px);
             animation: waveFlow 3.5s linear infinite;
         }
-
         @keyframes waveFlow { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .ship-wrapper { position: absolute; bottom: 10px; width: 110px; height: 110px; } /* 船隻縮小 */
+        .ship-wrapper { position: absolute; bottom: 10px; width: 130px; height: 130px; } /* 船隻跟著等比例放大 */
         .p1-ship-wrap { left: 20px; animation: shipFloat 3s ease-in-out infinite; }
         .p2-ship-wrap { right: 20px; animation: shipFloat 3.5s ease-in-out infinite reverse; }
-        .ship-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.35)); }
+        .ship-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.35)); pointer-events: none; }
 
         @keyframes shipFloat {
             0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-8px) rotate(2deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
         }
 
         .ship-hit { animation: hitShake 0.5s ease-in-out !important; }
@@ -106,138 +96,140 @@
         }
 
         .cannonball {
-            position: absolute; width: 18px; height: 18px;
+            position: absolute; width: 18px; height: 18px; /* 砲彈稍微放大 */
             background: radial-gradient(circle at 5px 5px, #ea580c, #111827);
             border-radius: 50%; border: 2px solid #000; z-index: 10; display: none; box-shadow: 0 0 8px #f97316;
         }
         .cannonball.fly-p1-to-p2 { display: block; animation: shootLeftToRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
         .cannonball.fly-p2-to-p1 { display: block; animation: shootRightToLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
 
+        /* 配合放大的舞台，調整砲彈飛行的拋物線高度 */
         @keyframes shootLeftToRight {
-            0% { left: 120px; bottom: 50px; transform: scale(0.6); }
-            50% { left: 450px; bottom: 120px; transform: scale(1.3); }
-            100% { left: 800px; bottom: 50px; transform: scale(1); }
+            0% { left: 130px; bottom: 50px; transform: scale(0.6); }
+            50% { left: 450px; bottom: 140px; transform: scale(1.3); }
+            100% { left: 820px; bottom: 50px; transform: scale(1); }
         }
         @keyframes shootRightToLeft {
-            0% { right: 120px; bottom: 50px; transform: scale(0.6); }
-            50% { right: 450px; bottom: 120px; transform: scale(1.3); }
-            100% { right: 800px; bottom: 50px; transform: scale(1); }
+            0% { right: 130px; bottom: 50px; transform: scale(0.6); }
+            50% { right: 450px; bottom: 140px; transform: scale(1.3); }
+            100% { right: 820px; bottom: 50px; transform: scale(1); }
         }
 
         .explosion-effect {
-            position: absolute; bottom: 20px; width: 80px; height: 80px; z-index: 15;
-            display: none; animation: popExplode 0.6s ease-out forwards;
+            position: absolute; bottom: 20px; width: 90px; height: 90px; z-index: 15; /* 爆炸特效放大 */
+            display: none; animation: popExplode 0.6s ease-out forwards; pointer-events: none;
         }
-        .explosion-p1 { left: 35px; } .explosion-p2 { right: 35px; }
+        .explosion-p1 { left: 40px; } .explosion-p2 { right: 40px; }
         @keyframes popExplode {
             0% { transform: scale(0.2); opacity: 0; }
             50% { transform: scale(1.4); opacity: 1; }
             100% { transform: scale(1); opacity: 0; }
         }
 
-        /* STREAMING_CHUNK: Question Area */
-        .question-header {
-            display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 5px;
-            flex-shrink: 0;
+        /* STREAMING_CHUNK: Compact Question Area */        .question-header {
+            display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 8px; flex-shrink: 0;
         }
-
         .type-badge {
             background-color: #fef3c7; color: #92400e; padding: 4px 15px;
             border-radius: 20px; font-size: 0.9em; font-weight: bold; border: 2px solid #b45309;
         }
-
         .question-box {
-            background: #fff8f0; color: #451a03; border-radius: 15px; padding: 6px 20px; font-size: 1.8em;
+            background: #fff8f0; color: #451a03; border-radius: 12px; padding: 5px 20px; font-size: 1.6em;
             font-weight: bold; border: 4px double var(--op-gold); box-shadow: 0 4px 10px rgba(0,0,0,0.1); letter-spacing: 1px;
         }
 
-        /* STREAMING_CHUNK: Player Panels (Step 1 & Step 2) */
+        /* STREAMING_CHUNK: Combined Player Panels */
         .pvp-controls { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex-grow: 1; min-height: 0; /* 讓內部元素可以自動收縮 */
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex-grow: 1; min-height: 0; 
         }
 
         .player-panel {
             background-color: #fefce8; border: 3px solid #cbd5e1; border-radius: 15px; padding: 10px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center;
-            overflow: hidden;
         }
         .player-panel.p1 { border-color: #2563eb; }
         .player-panel.p2 { border-color: #dc2626; }
 
         .player-title {
-            font-size: 1.1em; font-weight: bold; margin-bottom: 5px; display: flex; align-items: center;
+            font-size: 1.1em; font-weight: bold; margin-bottom: 6px; display: flex; align-items: center;
             justify-content: center; gap: 6px; flex-shrink: 0;
         }
         .p1 .player-title { color: #1e40af; }
         .p2 .player-title { color: #991b1b; }
 
+        /* 面板佈局：左側是動態步驟，右側是共用 Keypad */
+        .panel-layout {
+            display: flex; width: 100%; gap: 10px; flex-grow: 1; min-height: 0;
+        }
+
+        .step-content-area {
+            flex: 1; display: flex; flex-direction: column; min-width: 0;
+        }
+
         .step-container {
             width: 100%; background: rgba(255, 255, 255, 0.6); border: 2px dashed #94a3b8;
-            border-radius: 10px; padding: 8px; box-sizing: border-box; flex-grow: 1; display: flex; flex-direction: column;
+            border-radius: 8px; padding: 8px; box-sizing: border-box; flex-grow: 1; display: flex; flex-direction: column;
         }
         .p1 .step-container { border-color: #93c5fd; background: #eff6ff; }
         .p2 .step-container { border-color: #fca5a5; background: #fef2f2; }
         
-        .step-title { font-size: 0.9em; font-weight: bold; margin-bottom: 5px; color: #475569; flex-shrink: 0; }
+        .step-title { font-size: 0.9em; font-weight: bold; margin-bottom: 6px; color: #475569; flex-shrink: 0; }
+
+        /* 統一的自訂輸入框樣式 */
+        .custom-input {
+            padding: 4px; text-align: center; border: 2px solid #cbd5e1;
+            border-radius: 6px; font-family: 'Comic Neue', monospace; outline: none; cursor: pointer;
+            background: #ffffff; color: #1e293b;
+        }
+        /* 智慧焦點高光 */
+        .custom-input.input-focus {
+            border-color: var(--op-gold); background: #fef08a; box-shadow: 0 0 5px rgba(245, 158, 11, 0.5);
+        }
 
         /* 步驟1輸入區 */
         .shift-inputs {
             display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 1.2em;
-            font-weight: bold; margin-top: 10px; color: #333;
+            font-weight: bold; margin: 10px 0;
         }
-        .shift-inputs input {
-            width: 60px; padding: 4px; font-size: 0.9em; text-align: center; border: 2px solid #cbd5e1;
-            border-radius: 6px; font-family: 'Comic Neue', monospace; outline: none;
-        }
-        .shift-inputs input:focus { border-color: var(--op-gold); background: #fffbeb; }
+        .shift-inputs input { width: 60px; font-size: 0.95em; }
 
         .btn-confirm-step1 {
-            background-color: #10b981; color: white; border: none; padding: 5px 12px; font-size: 0.85em;
-            font-weight: bold; border-radius: 15px; cursor: pointer; box-shadow: 0 3px 0 #059669; margin-top: 10px;
+            background-color: #10b981; color: white; border: none; padding: 6px 12px; font-size: 0.9em;
+            font-weight: bold; border-radius: 15px; cursor: pointer; box-shadow: 0 3px 0 #059669; align-self: center;
         }
         .btn-confirm-step1:active { transform: translateY(3px); box-shadow: 0 0 0 #059669; }
 
-        /* 步驟1成功後的顯示區 (左邊算式，右邊答案) */
+        /* 步驟2成功後的橫式顯示 */
         .shift-success {
-            display: none; align-items: center; justify-content: center; gap: 8px; font-size: 1.3em;
-            font-weight: bold; color: #1e293b; margin-bottom: 5px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1.2em;
+            font-weight: bold; color: #1e293b; margin-bottom: 8px; flex-shrink: 0;
         }
-        .final-ans-input {
-            width: 70px; text-align: center; border: 3px solid var(--op-gold); border-radius: 6px;
-            padding: 3px; font-size: 0.95em; background: #fef08a; color: #b45309; outline: none; font-family: 'Comic Neue', monospace;
-        }
+        .final-ans-input { width: 70px; font-size: 0.95em; font-weight: bold; color: #b45309; }
 
-        /* 步驟 2 內部佈局：左邊草算，右邊 KEYPAD */
-        .step2-wrapper { display: none; }
-        .step2-layout {
-            display: flex; gap: 10px; width: 100%; justify-content: space-between; align-items: stretch; flex-grow: 1; min-height: 0;
-        }
-
-        /* 白色草算區 (Canvas) - 放在左側 */
+        /* 白色草算區 (Canvas) */
         .canvas-container {
             flex: 1; background-color: #ffffff; border: 2px dashed #94a3b8; border-radius: 8px;
-            position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); min-height: 110px;
+            position: relative; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); min-height: 100px;
             background-image: linear-gradient(#f1f5f9 1px, transparent 1px), linear-gradient(90deg, #f1f5f9 1px, transparent 1px);
-            background-size: 15px 15px; /* 格線縮小 */
+            background-size: 15px 15px;
         }
-        canvas {
-            width: 100%; height: 100%; touch-action: none; cursor: crosshair; border-radius: 8px; display: block;
-        }
+        canvas { width: 100%; height: 100%; touch-action: none; cursor: crosshair; border-radius: 8px; display: block; }
         .btn-clear-canvas {
             position: absolute; top: 3px; right: 3px; background: #f87171; color: white; border: none;
             border-radius: 4px; font-size: 0.7em; font-weight: bold; padding: 3px 6px; cursor: pointer; z-index: 5;
         }
         .btn-clear-canvas:active { transform: scale(0.95); }
 
-        /* 數字小鍵盤 - 放在右側 */
+        /* 共享數字小鍵盤 */
+        .keypad-wrapper { flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; }
         .keypad {
-            display: grid; grid-template-columns: repeat(3, 26px); gap: 3px; align-content: start;
-            background: #e2e8f0; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1; flex-shrink: 0;
+            display: grid; grid-template-columns: repeat(3, 28px); gap: 4px;
+            background: #e2e8f0; padding: 6px; border-radius: 8px; border: 2px solid #cbd5e1;
         }
         .key-btn {
-            background: #ffffff; border: 1px solid #94a3b8; border-radius: 5px; height: 26px;
-            font-size: 0.9em; font-weight: bold; color: #1e293b; cursor: pointer; display: flex;
-            align-items: center; justify-content: center; box-shadow: 0 2px 0 #cbd5e1; transition: all 0.05s;
+            background: #ffffff; border: 1px solid #94a3b8; border-radius: 5px; height: 28px;
+            font-size: 0.95em; font-weight: bold; color: #1e293b; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; box-shadow: 0 2px 0 #cbd5e1;
         }
         .key-btn:active { transform: translateY(2px); box-shadow: 0 0 0 #cbd5e1; background: #fef08a; }
         .key-del { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
@@ -245,34 +237,25 @@
         /* 攻擊按鈕 */
         .btn-fire {
             width: 100%; color: white; border: none; padding: 8px 0; font-size: 1.05em;
-            font-weight: bold; border-radius: 20px; cursor: pointer; transition: all 0.1s; margin-top: 8px; flex-shrink: 0;
+            font-weight: bold; border-radius: 20px; cursor: pointer; margin-top: 8px; flex-shrink: 0;
         }
         .btn-p1 { background-color: #2563eb; box-shadow: 0 3px 0 #1e40af; }
         .btn-p1:active { transform: translateY(3px); box-shadow: 0 0 0 #1e40af; }
         .btn-p2 { background-color: #dc2626; box-shadow: 0 3px 0 #991b1b; }
         .btn-p2:active { transform: translateY(3px); box-shadow: 0 0 0 #991b1b; }
 
-        .message { font-size: 1em; font-weight: bold; min-height: 1.2em; margin-top: 5px; flex-shrink: 0; }
+        .message { font-size: 1.1em; font-weight: bold; min-height: 1.2em; margin-top: 5px; flex-shrink: 0; }
         .game-over { display: none; }
-        .bounty-tag { font-size: 1.5em; color: #b45309; font-weight: bold; margin: 10px 0; }
     </style>
 </head>
 <body>
 
 <div class="game-container">
-    
     <div id="game-screen" style="display: flex; flex-direction: column; height: 100%;">
-        <!-- 將大標題融入狀態列，節省垂直空間 -->
         <div class="pvp-stats-bar">
-            <div>
-                <span>👒 草帽海賊團</span>
-                <div class="hp-meat" id="p1-hp">🍖🍖🍖🍖🍖</div>
-            </div>
+            <div><span>👒 草帽海賊團</span><div class="hp-meat" id="p1-hp">🍖🍖🍖🍖🍖</div></div>
             <div class="main-title">🏴‍☠️ 小數除法決鬥</div>
-            <div>
-                <span>🐉 百獸海賊團</span>
-                <div class="hp-meat" id="p2-hp">🍖🍖🍖🍖🍖</div>
-            </div>
+            <div><span>🐉 百獸海賊團</span><div class="hp-meat" id="p2-hp">🍖🍖🍖🍖🍖</div></div>
         </div>
 
         <div class="battle-stage">
@@ -293,103 +276,98 @@
             <div class="question-box" id="question">12 ÷ 4 = ?</div>
         </div>
 
-        <!-- STREAMING_CHUNK: Player Panels (Step 1 & Step 2 Layout) -->
+        <!-- STREAMING_CHUNK: Redesigned Shared-Keypad Panels -->
         <div class="pvp-controls">
             <!-- 玩家 A：魯夫 -->
             <div class="player-panel p1">
                 <div class="player-title">👒 魯夫 (草帽隊)</div>
                 
-                <div class="step-container" id="p1-step1-box">
-                    <div class="step-title" id="p1-s1-title">步驟 1：除數化為整數 (移位)</div>
-                    
-                    <div class="shift-inputs" id="p1-s1-input-group">
-                        <input type="text" id="p1-s1-divd" placeholder="被除數" autocomplete="off"> 
-                        <span>÷</span> 
-                        <input type="text" id="p1-s1-divs" placeholder="除數" autocomplete="off">
-                    </div>
-                    <button class="btn-confirm-step1" id="p1-btn-s1" onclick="verifyStep1(1)">確認</button>
-                </div>
-
-                <div class="step-container step2-wrapper" id="p1-step2-box">
-                    <!-- 移位成功後的狀態：算式在左，答案在右 -->
-                    <div class="shift-success" id="p1-s1-success-group">
-                        <span id="p1-final-divd"></span>
-                        <span>÷</span>
-                        <span id="p1-final-divs"></span>
-                        <span>=</span>
-                        <input type="text" id="p1-final-ans" class="final-ans-input" placeholder="答案" readonly>
-                    </div>
-
-                    <div class="step-title" style="color:#1e40af;">步驟 2：利用草稿算出答案！</div>
-                    
-                    <div class="step2-layout">
-                        <!-- 左側：白色草算區 (Canvas) -->
-                        <div class="canvas-container">
-                            <button class="btn-clear-canvas" onclick="clearCanvas(1)">🗑️ 清空</button>
-                            <canvas id="p1-canvas"></canvas>
+                <div class="panel-layout">
+                    <!-- 左半部：步驟區 (Step 1 或 Step 2) -->
+                    <div class="step-content-area">
+                        <!-- 步驟 1：擴分 -->
+                        <div class="step-container" id="p1-step1-box">
+                            <div class="step-title">步驟 1：點擊方框，用鍵盤擴分移位</div>
+                            <div class="shift-inputs">
+                                <input type="text" id="p1-s1-divd" class="custom-input" readonly onclick="setActiveInput(1, 'p1-s1-divd')"> 
+                                <span>÷</span> 
+                                <input type="text" id="p1-s1-divs" class="custom-input" readonly onclick="setActiveInput(1, 'p1-s1-divs')">
+                            </div>
+                            <button class="btn-confirm-step1" onclick="verifyStep1(1)">確認移位 ✔️</button>
                         </div>
-                        <!-- 右側：數字小鍵盤 -->
-                        <div class="keypad" id="p1-keypad">
+
+                        <!-- 步驟 2：草算與答案 -->
+                        <div class="step-container" id="p1-step2-box" style="display: none;">
+                            <div class="shift-success">
+                                <span id="p1-final-divd"></span> ÷ <span id="p1-final-divs"></span> = 
+                                <input type="text" id="p1-final-ans" class="custom-input final-ans-input" readonly onclick="setActiveInput(1, 'p1-final-ans')">
+                            </div>
+                            <div class="canvas-container">
+                                <button class="btn-clear-canvas" onclick="clearCanvas(1)">🗑️ 清空</button>
+                                <canvas id="p1-canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右半部：全域共享數字鍵盤 -->
+                    <div class="keypad-wrapper">
+                        <div class="keypad">
                             <button class="key-btn" onclick="insertKey(1, '7')">7</button><button class="key-btn" onclick="insertKey(1, '8')">8</button><button class="key-btn" onclick="insertKey(1, '9')">9</button>
                             <button class="key-btn" onclick="insertKey(1, '4')">4</button><button class="key-btn" onclick="insertKey(1, '5')">5</button><button class="key-btn" onclick="insertKey(1, '6')">6</button>
                             <button class="key-btn" onclick="insertKey(1, '1')">1</button><button class="key-btn" onclick="insertKey(1, '2')">2</button><button class="key-btn" onclick="insertKey(1, '3')">3</button>
                             <button class="key-btn" onclick="insertKey(1, '.')">.</button><button class="key-btn" onclick="insertKey(1, '0')">0</button><button class="key-btn key-del" onclick="insertKey(1, 'DEL')">⌫</button>
                         </div>
                     </div>
-                    <button class="btn-fire btn-p1" onclick="submitAnswer(1)">🔥 確認發射！</button>
                 </div>
+                <button class="btn-fire btn-p1" onclick="submitAnswer(1)">🔥 確認發射！</button>
             </div>
             
             <!-- 玩家 B：凱多 -->
             <div class="player-panel p2">
                 <div class="player-title">🐉 凱多 (百獸隊)</div>
                 
-                <div class="step-container" id="p2-step1-box">
-                    <div class="step-title" id="p2-s1-title">步驟 1：除數化為整數 (移位)</div>
-                    
-                    <div class="shift-inputs" id="p2-s1-input-group">
-                        <input type="text" id="p2-s1-divd" placeholder="被除數" autocomplete="off"> 
-                        <span>÷</span> 
-                        <input type="text" id="p2-s1-divs" placeholder="除數" autocomplete="off">
-                    </div>
-                    <button class="btn-confirm-step1" id="p2-btn-s1" onclick="verifyStep1(2)">確認</button>
-                </div>
-
-                <div class="step-container step2-wrapper" id="p2-step2-box">
-                    <div class="shift-success" id="p2-s1-success-group">
-                        <span id="p2-final-divd"></span>
-                        <span>÷</span>
-                        <span id="p2-final-divs"></span>
-                        <span>=</span>
-                        <input type="text" id="p2-final-ans" class="final-ans-input" placeholder="答案" readonly>
-                    </div>
-
-                    <div class="step-title" style="color:#991b1b;">步驟 2：利用草稿算出答案！</div>
-                    
-                    <div class="step2-layout">
-                        <!-- 左側：白色草算區 (Canvas) -->
-                        <div class="canvas-container">
-                            <button class="btn-clear-canvas" onclick="clearCanvas(2)">🗑️ 清空</button>
-                            <canvas id="p2-canvas"></canvas>
+                <div class="panel-layout">
+                    <div class="step-content-area">
+                        <div class="step-container" id="p2-step1-box">
+                            <div class="step-title">步驟 1：點擊方框，用鍵盤擴分移位</div>
+                            <div class="shift-inputs">
+                                <input type="text" id="p2-s1-divd" class="custom-input" readonly onclick="setActiveInput(2, 'p2-s1-divd')"> 
+                                <span>÷</span> 
+                                <input type="text" id="p2-s1-divs" class="custom-input" readonly onclick="setActiveInput(2, 'p2-s1-divs')">
+                            </div>
+                            <button class="btn-confirm-step1" onclick="verifyStep1(2)">確認移位 ✔️</button>
                         </div>
-                        <!-- 右側：數字小鍵盤 -->
-                        <div class="keypad" id="p2-keypad">
+
+                        <div class="step-container" id="p2-step2-box" style="display: none;">
+                            <div class="shift-success">
+                                <span id="p2-final-divd"></span> ÷ <span id="p2-final-divs"></span> = 
+                                <input type="text" id="p2-final-ans" class="custom-input final-ans-input" readonly onclick="setActiveInput(2, 'p2-final-ans')">
+                            </div>
+                            <div class="canvas-container">
+                                <button class="btn-clear-canvas" onclick="clearCanvas(2)">🗑️ 清空</button>
+                                <canvas id="p2-canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="keypad-wrapper">
+                        <div class="keypad">
                             <button class="key-btn" onclick="insertKey(2, '7')">7</button><button class="key-btn" onclick="insertKey(2, '8')">8</button><button class="key-btn" onclick="insertKey(2, '9')">9</button>
                             <button class="key-btn" onclick="insertKey(2, '4')">4</button><button class="key-btn" onclick="insertKey(2, '5')">5</button><button class="key-btn" onclick="insertKey(2, '6')">6</button>
                             <button class="key-btn" onclick="insertKey(2, '1')">1</button><button class="key-btn" onclick="insertKey(2, '2')">2</button><button class="key-btn" onclick="insertKey(2, '3')">3</button>
                             <button class="key-btn" onclick="insertKey(2, '.')">.</button><button class="key-btn" onclick="insertKey(2, '0')">0</button><button class="key-btn key-del" onclick="insertKey(2, 'DEL')">⌫</button>
                         </div>
                     </div>
-                    <button class="btn-fire btn-p2" onclick="submitAnswer(2)">⚡ 確認發射！</button>
                 </div>
+                <button class="btn-fire btn-p2" onclick="submitAnswer(2)">⚡ 確認發射！</button>
             </div>
         </div>
         <div class="message" id="message"></div>
     </div>
 
-    <div id="game-over-screen" class="game-over">
-        <h2 id="winner-title" style="font-size: 2.2em; color: #b45309; margin-bottom: 5px;">🎉 新霸主誕生！</h2>
-        <div class="bounty-tag" id="bounty-text">懸賞金：฿ 3,000,000,000</div>
+    <div id="game-over-screen" class="game-over" style="margin-top:50px;">
+        <h2 id="winner-title" style="font-size: 2.5em; color: #b45309; margin-bottom: 5px;">🎉 新霸主誕生！</h2>
+        <div class="bounty-tag" id="bounty-text" style="font-size: 1.8em;">懸賞金：฿ 3,000,000,000</div>
         <div style="font-size: 4em; margin: 10px 0;">👑🏴‍☠️🍖</div>
         <button class="btn-fire btn-p1" style="width: 200px; font-size: 1.2em; background: #b45309; box-shadow: 0 4px 0 #78350f;" onclick="restartGame()">🔄 再次挑戰</button>
     </div>
@@ -397,13 +375,17 @@
 
 <!-- STREAMING_CHUNK: JavaScript Logic -->
 <script>
-    let currentAnswer = 0;
-    let targetDividend = 0; 
-    let targetDivisor = 0;  
-    
+    // 禁用右鍵選單
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    let currentAnswer = 0; let targetDividend = 0; let targetDivisor = 0;  
     let p1Hp = 5; let p2Hp = 5;
     let isRoundActive = true;
     let p1Step1Done = false; let p2Step1Done = false;
+
+    // 焦點狀態追蹤
+    let activeInputP1 = null;
+    let activeInputP2 = null;
 
     const enemyShips = [
         "https://baralaichow621-lab.github.io/decimals_decimals/ship2.png",
@@ -425,25 +407,47 @@
         return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
     }
 
+    // 🏆 設定當前活動輸入框 🏆
+    function setActiveInput(player, inputId) {
+        const inputEl = document.getElementById(inputId);
+        if (player === 1) {
+            if (activeInputP1) activeInputP1.classList.remove('input-focus');
+            activeInputP1 = inputEl;
+            activeInputP1.classList.add('input-focus');
+        } else {
+            if (activeInputP2) activeInputP2.classList.remove('input-focus');
+            activeInputP2 = inputEl;
+            activeInputP2.classList.add('input-focus');
+        }
+    }
+
+    // 🏆 處理小鍵盤輸入 (通用) 🏆
+    function insertKey(player, val) {
+        let activeInput = (player === 1) ? activeInputP1 : activeInputP2;
+        if (!activeInput) return;
+
+        if (val === 'DEL') {
+            activeInput.value = activeInput.value.slice(0, -1);
+        } else {
+            if (val === '.' && activeInput.value.includes('.')) return;
+            activeInput.value += val;
+        }
+    }
+
     // 🏆 草算區 (Canvas) 繪圖邏輯 🏆
     function initCanvas(playerId) {
         const canvas = document.getElementById(`p${playerId}-canvas`);
         if (canvas.dataset.initialized) return; 
         canvas.dataset.initialized = 'true';
 
-        // 確保寬高在渲染後正確抓取
         setTimeout(() => {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
             const ctx = canvas.getContext('2d');
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.lineWidth = 2.5;
-            ctx.strokeStyle = '#1e293b';
+            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 2.5; ctx.strokeStyle = '#1e293b';
         }, 50);
 
         let isDrawing = false;
-
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -455,8 +459,7 @@
             isDrawing = true; const pos = getPos(e);
             const ctx = canvas.getContext('2d');
             ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
-            // 阻止 iPad 滑動螢幕
-            if(e.cancelable) e.preventDefault();
+            if(e.cancelable) e.preventDefault(); // 防滾動
         }
 
         function endPosition() { isDrawing = false; }
@@ -469,14 +472,10 @@
             if(e.cancelable) e.preventDefault();
         }
 
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', endPosition);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseout', endPosition);
-
+        canvas.addEventListener('mousedown', startPosition); canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw); canvas.addEventListener('mouseout', endPosition);
         canvas.addEventListener('touchstart', startPosition, {passive: false});
-        canvas.addEventListener('touchend', endPosition);
-        canvas.addEventListener('touchcancel', endPosition);
+        canvas.addEventListener('touchend', endPosition); canvas.addEventListener('touchcancel', endPosition);
         canvas.addEventListener('touchmove', draw, {passive: false});
     }
 
@@ -486,18 +485,6 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    // 處理小鍵盤輸入
-    function insertKey(player, val) {
-        const ansInput = document.getElementById(`p${player}-final-ans`);
-        if (val === 'DEL') {
-            ansInput.value = ansInput.value.slice(0, -1);
-        } else {
-            if (val === '.' && ansInput.value.includes('.')) return;
-            ansInput.value += val;
-        }
-    }
-
-    // 驗證步驟 1
     function verifyStep1(player) {
         if (!isRoundActive) return;
         
@@ -512,31 +499,25 @@
         const inputDivd = parseFloat(inputDivdStr); const inputDivs = parseFloat(inputDivsStr);
 
         if (inputDivd === targetDividend && inputDivs === targetDivisor) {
-            msg.style.color = "#059669";
-            msg.innerText = player === 1 ? "✅ 移位正確！" : "✅ 移位正確！";
+            msg.style.color = "#059669"; msg.innerText = player === 1 ? "✅ 移位正確！" : "✅ 移位正確！";
             
-            // 變更步驟 1 顯示狀態
-            document.getElementById(`p${player}-s1-input-group`).style.display = 'none';
-            document.getElementById(`p${player}-s1-title`).style.display = 'none'; // 隱藏標題節省空間
-            document.getElementById(`p${player}-btn-s1`).style.display = 'none';
-            
-            // 將正確數字填入算式 (算式在左，答案在右)
-            document.getElementById(`p${player}-final-divd`).innerText = targetDividend;
-            document.getElementById(`p${player}-final-divs`).innerText = targetDivisor;
-            document.getElementById(`p${player}-s1-success-group`).style.display = 'flex';
-            
-            // 顯示步驟 2
+            // 隱藏步驟 1，顯示步驟 2
+            document.getElementById(`p${player}-step1-box`).style.display = 'none';
             document.getElementById(`p${player}-step2-box`).style.display = 'flex';
             
-            // 初始化 Canvas
+            // 填入算式
+            document.getElementById(`p${player}-final-divd`).innerText = targetDividend;
+            document.getElementById(`p${player}-final-divs`).innerText = targetDivisor;
+            
+            // 自動切換焦點到最終答案框
+            setActiveInput(player, `p${player}-final-ans`);
             initCanvas(player);
             
             if (player === 1) p1Step1Done = true;
             if (player === 2) p2Step1Done = true;
             
         } else {
-            msg.style.color = "#dc2626";
-            msg.innerText = "❌ 移位錯誤！請確保除數為整數，且同乘相同倍數。";
+            msg.style.color = "#dc2626"; msg.innerText = "❌ 移位錯誤！請同乘倍數化為整數。";
         }
     }
 
@@ -544,22 +525,22 @@
         p1Step1Done = false; p2Step1Done = false;
         [1, 2].forEach(player => {
             document.getElementById(`p${player}-step2-box`).style.display = 'none';
-            document.getElementById(`p${player}-s1-title`).style.display = 'block';
-            document.getElementById(`p${player}-btn-s1`).style.display = 'inline-block';
-            document.getElementById(`p${player}-s1-input-group`).style.display = 'flex';
-            document.getElementById(`p${player}-s1-success-group`).style.display = 'none';
+            document.getElementById(`p${player}-step1-box`).style.display = 'flex';
             
             document.getElementById(`p${player}-s1-divd`).value = '';
             document.getElementById(`p${player}-s1-divs`).value = '';
             document.getElementById(`p${player}-final-ans`).value = '';
             
+            // 預設焦點回到被除數
+            setActiveInput(player, `p${player}-s1-divd`);
+
             const canvas = document.getElementById(`p${player}-canvas`);
             if (canvas.dataset.initialized) { clearCanvas(player); }
         });
         document.getElementById('message').innerText = '';
     }
 
-function generateQuestion() {
+    function generateQuestion() {
         const type = Math.floor(Math.random() * 5);
         let num1, num2, answer; let typeName = "";
         const safeDivisorsInt = [2, 4, 5, 8, 10];
@@ -592,9 +573,7 @@ function generateQuestion() {
         if (attacker === 1) ball.classList.add('fly-p1-to-p2'); else ball.classList.add('fly-p2-to-p1');
 
         setTimeout(() => {
-            // 在爆炸發生的瞬間，移除炮彈的飛行 class，讓炮彈立刻隱藏 (display: none)
             ball.classList.remove('fly-p1-to-p2', 'fly-p2-to-p1');
-            
             explosion.style.display = 'block'; targetShip.classList.add('ship-hit');
             setTimeout(() => { explosion.style.display = 'none'; targetShip.classList.remove('ship-hit'); if (callback) callback(); }, 600);
         }, 800);
@@ -607,22 +586,21 @@ function generateQuestion() {
         const ansInputStr = document.getElementById(`p${player}-final-ans`).value.trim();
         const msg = document.getElementById('message');
 
-        if (ansInputStr === '') { msg.style.color = "#dc2626"; msg.innerText = `⚠️ 請使用數字鍵盤輸入最終答案！`; return; }
+        if (ansInputStr === '') { msg.style.color = "#dc2626"; msg.innerText = `⚠️ 請輸入答案！`; return; }
 
         const val = parseFloat(ansInputStr);
 
         if (Math.abs(val - currentAnswer) < 0.0001) {
             isRoundActive = false; 
-            if (player === 1) { msg.style.color = "#1e40af"; msg.innerText = `⚡ 魯夫計算正確！`; } 
-            else { msg.style.color = "#991b1b"; msg.innerText = `⚡ 凱多計算正確！`; }
+            msg.style.color = player === 1 ? "#1e40af" : "#991b1b";
+            msg.innerText = `⚡ 計算正確！`;
 
             fireAttack(player, () => {
                 if (player === 1) p2Hp--; else p1Hp--; updateHpDisplay();
                 if (p1Hp <= 0 || p2Hp <= 0) showGameOver(p1Hp > 0 ? 1 : 2); else generateQuestion();
             });
         } else {
-            const playerName = player === 1 ? '魯夫' : '凱多';
-            msg.style.color = "#dc2626"; msg.innerText = `❌ ${playerName} 答案算錯了！被大浪干擾！`;
+            msg.style.color = "#dc2626"; msg.innerText = `❌ 答案算錯了！被大浪干擾！`;
             document.getElementById(`p${player}-final-ans`).value = ''; 
         }
     }
@@ -635,8 +613,8 @@ function generateQuestion() {
     function showGameOver(winner) {
         document.getElementById('game-screen').style.display = 'none'; document.getElementById('game-over-screen').style.display = 'block';
         const winnerTitle = document.getElementById('winner-title'); const bountyText = document.getElementById('bounty-text');
-        if (winner === 1) { winnerTitle.innerText = "👑 恭喜魯夫登頂海賊王！"; winnerTitle.style.color = "#1e40af"; bountyText.innerText = "懸賞金：฿ 3,000,000,000"; } 
-        else { winnerTitle.innerText = "🐉 凱多稱霸了偉大航道！"; winnerTitle.style.color = "#991b1b"; bountyText.innerText = "懸賞金：฿ 4,611,100,000"; }
+        if (winner === 1) { winnerTitle.innerText = "👑 草帽魯夫登頂海賊王！"; winnerTitle.style.color = "#1e40af"; } 
+        else { winnerTitle.innerText = "🐉 百獸凱多稱霸偉大航道！"; winnerTitle.style.color = "#991b1b"; }
     }
 
     function restartGame() {
@@ -653,10 +631,7 @@ function generateQuestion() {
                 const tempCanvas = document.createElement('canvas');
                 tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
                 tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
-                
-                canvas.width = canvas.offsetWidth;
-                canvas.height = canvas.offsetHeight;
-                
+                canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
                 ctx.drawImage(tempCanvas, 0, 0);
                 ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 2.5; ctx.strokeStyle = '#1e293b';
             }
