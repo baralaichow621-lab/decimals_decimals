@@ -57,7 +57,7 @@
             flex-shrink: 0;
         }
 
-.hp-meat { font-size: 1.2em; letter-spacing: 1px; }
+        .hp-meat { font-size: 1.2em; letter-spacing: 1px; }
         .main-title { color: #78350f; font-size: 1.3em; text-shadow: 1px 1px 0px var(--op-gold); }
 
         /* STREAMING_CHUNK: Compact Battle Stage */
@@ -126,7 +126,8 @@
             100% { transform: scale(1); opacity: 0; }
         }
 
-        /* STREAMING_CHUNK: Compact Question Area */        .question-header {
+        /* STREAMING_CHUNK: Compact Question Area */
+        .question-header {
             display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 8px; flex-shrink: 0;
         }
         .type-badge {
@@ -266,7 +267,7 @@
             <div class="explosion-effect explosion-p2" id="explosion-p2">
                 <svg viewBox="0 0 100 100"><path d="M50 5 L60 35 L95 25 L70 50 L95 75 L60 65 L50 95 L40 65 L5 75 L30 50 L5 25 L40 35 Z" fill="#ef4444" stroke="#fbbf24" stroke-width="4"/><path d="M50 20 L57 40 L80 33 L63 50 L80 67 L57 60 L50 80 L43 60 L20 67 L37 50 L20 33 L43 40 Z" fill="#fbbf24"/></svg>
             </div>
-            <div class="ship-wrapper p1-ship-wrap" id="p1-ship"><img src="https://baralaichow621-lab.github.io/decimals_decimals/ship1.png" alt="千陽號" class="ship-img"></div>
+            <div class="ship-wrapper p1-ship-wrap" id="p1-ship"><img src="https://pmath-lab.github.io/decimals_decimals/ship1.png" alt="千陽號" class="ship-img"></div>
             <div class="ship-wrapper p2-ship-wrap" id="p2-ship"><img src="" alt="敵方戰艦" class="ship-img" id="p2-ship-img"></div>
             <div class="ocean-waves"></div>
         </div>
@@ -287,21 +288,28 @@
                     <div class="step-content-area">
                         <!-- 步驟 1：擴分 -->
                         <div class="step-container" id="p1-step1-box">
-                            <div class="step-title">步驟 1：點擊方框，用鍵盤擴分移位</div>
-                            <div class="shift-inputs">
+                            <div class="step-title" id="p1-s1-title">步驟 1：點擊方框，用鍵盤擴分移位</div>
+                            <div class="shift-inputs" id="p1-s1-input-group">
                                 <input type="text" id="p1-s1-divd" class="custom-input" readonly onclick="setActiveInput(1, 'p1-s1-divd')"> 
                                 <span>÷</span> 
                                 <input type="text" id="p1-s1-divs" class="custom-input" readonly onclick="setActiveInput(1, 'p1-s1-divs')">
                             </div>
-                            <button class="btn-confirm-step1" onclick="verifyStep1(1)">確認移位 ✔️</button>
+                            <button class="btn-confirm-step1" id="p1-btn-s1" onclick="verifyStep1(1)">確認</button>
                         </div>
 
                         <!-- 步驟 2：草算與答案 -->
                         <div class="step-container" id="p1-step2-box" style="display: none;">
-                            <div class="shift-success">
-                                <span id="p1-final-divd"></span> ÷ <span id="p1-final-divs"></span> = 
+                            <!-- 移位成功後的狀態：算式在左，答案在右 -->
+                            <div class="shift-success" id="p1-s1-success-group">
+                                <span id="p1-final-divd"></span>
+                                <span>÷</span>
+                                <span id="p1-final-divs"></span>
+                                <span>=</span>
                                 <input type="text" id="p1-final-ans" class="custom-input final-ans-input" readonly onclick="setActiveInput(1, 'p1-final-ans')">
                             </div>
+
+                            <div class="step-title" style="color:#1e40af;">步驟 2：利用草稿算出答案！</div>
+                            
                             <div class="canvas-container">
                                 <button class="btn-clear-canvas" onclick="clearCanvas(1)">🗑️ 清空</button>
                                 <canvas id="p1-canvas"></canvas>
@@ -329,20 +337,26 @@
                 <div class="panel-layout">
                     <div class="step-content-area">
                         <div class="step-container" id="p2-step1-box">
-                            <div class="step-title">步驟 1：點擊方框，用鍵盤擴分移位</div>
-                            <div class="shift-inputs">
+                            <div class="step-title" id="p2-s1-title">步驟 1：點擊方框，用鍵盤擴分移位</div>
+                            <div class="shift-inputs" id="p2-s1-input-group">
                                 <input type="text" id="p2-s1-divd" class="custom-input" readonly onclick="setActiveInput(2, 'p2-s1-divd')"> 
                                 <span>÷</span> 
                                 <input type="text" id="p2-s1-divs" class="custom-input" readonly onclick="setActiveInput(2, 'p2-s1-divs')">
                             </div>
-                            <button class="btn-confirm-step1" onclick="verifyStep1(2)">確認移位 ✔️</button>
+                            <button class="btn-confirm-step1" id="p2-btn-s1" onclick="verifyStep1(2)">確認</button>
                         </div>
 
                         <div class="step-container" id="p2-step2-box" style="display: none;">
-                            <div class="shift-success">
-                                <span id="p2-final-divd"></span> ÷ <span id="p2-final-divs"></span> = 
+                            <div class="shift-success" id="p2-s1-success-group">
+                                <span id="p2-final-divd"></span>
+                                <span>÷</span>
+                                <span id="p2-final-divs"></span>
+                                <span>=</span>
                                 <input type="text" id="p2-final-ans" class="custom-input final-ans-input" readonly onclick="setActiveInput(2, 'p2-final-ans')">
                             </div>
+
+                            <div class="step-title" style="color:#991b1b;">步驟 2：利用草稿算出答案！</div>
+                            
                             <div class="canvas-container">
                                 <button class="btn-clear-canvas" onclick="clearCanvas(2)">🗑️ 清空</button>
                                 <canvas id="p2-canvas"></canvas>
@@ -388,11 +402,11 @@
     let activeInputP2 = null;
 
     const enemyShips = [
-        "https://baralaichow621-lab.github.io/decimals_decimals/ship2.png",
-        "https://baralaichow621-lab.github.io/decimals_decimals/ship3.png",
-        "https://baralaichow621-lab.github.io/decimals_decimals/ship4.png",
-        "https://baralaichow621-lab.github.io/decimals_decimals/ship5.png",
-        "https://baralaichow621-lab.github.io/decimals_decimals/ship6.png"
+        "https://pmath-lab.github.io/decimals_decimals/ship2.png",
+        "https://pmath-lab.github.io/decimals_decimals/ship3.png",
+        "https://pmath-lab.github.io/decimals_decimals/ship4.png",
+        "https://pmath-lab.github.io/decimals_decimals/ship5.png",
+        "https://pmath-lab.github.io/decimals_decimals/ship6.png"
     ];
 
     function randomizeEnemyShip() {
@@ -493,7 +507,7 @@
         const msg = document.getElementById('message');
 
         if (inputDivdStr === '' || inputDivsStr === '') {
-            msg.style.color = "#dc2626"; msg.innerText = "⚠️ 請填寫擴分後的被除數與除數！"; return;
+            msg.style.color = "#dc2626"; msg.innerText = "⚠️ 請點擊方框並輸入擴分後的數字！"; return;
         }
 
         const inputDivd = parseFloat(inputDivdStr); const inputDivs = parseFloat(inputDivsStr);
@@ -501,11 +515,13 @@
         if (inputDivd === targetDividend && inputDivs === targetDivisor) {
             msg.style.color = "#059669"; msg.innerText = player === 1 ? "✅ 移位正確！" : "✅ 移位正確！";
             
-            // 隱藏步驟 1，顯示步驟 2
+            // 隱藏步驟 1 標題、輸入區、確認按鈕
             document.getElementById(`p${player}-step1-box`).style.display = 'none';
+            
+            // 顯示步驟 2 (草算區與最終答案輸入)
             document.getElementById(`p${player}-step2-box`).style.display = 'flex';
             
-            // 填入算式
+            // 將正確數字填入算式
             document.getElementById(`p${player}-final-divd`).innerText = targetDividend;
             document.getElementById(`p${player}-final-divs`).innerText = targetDivisor;
             
@@ -524,6 +540,7 @@
     function resetUIForNewRound() {
         p1Step1Done = false; p2Step1Done = false;
         [1, 2].forEach(player => {
+            // 隱藏步驟 2，恢復步驟 1
             document.getElementById(`p${player}-step2-box`).style.display = 'none';
             document.getElementById(`p${player}-step1-box`).style.display = 'flex';
             
@@ -586,7 +603,7 @@
         const ansInputStr = document.getElementById(`p${player}-final-ans`).value.trim();
         const msg = document.getElementById('message');
 
-        if (ansInputStr === '') { msg.style.color = "#dc2626"; msg.innerText = `⚠️ 請輸入答案！`; return; }
+        if (ansInputStr === '') { msg.style.color = "#dc2626"; msg.innerText = `⚠️ 請使用數字鍵盤輸入最終答案！`; return; }
 
         const val = parseFloat(ansInputStr);
 
